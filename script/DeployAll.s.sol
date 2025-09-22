@@ -91,18 +91,18 @@ contract DeployAll is Script {
 
         // 5. Verification and summary
         console.log("\n=== DEPLOYMENT SUMMARY ===");
-        console.log("✅ AgricultureSupplyChain:", address(supplyChain));
-        console.log("✅ PaymentContract:", address(payment));
-        console.log("✅ QRCodeRegistry:", address(qrRegistry));
-        console.log("✅ FairPricingContract:", address(fairPricing));
-        console.log("✅ ConsumerInterface:", address(consumerInterface));
-        console.log("✅ FraudDetectionContract:", address(fraudDetection));
+        console.log(" AgricultureSupplyChain:", address(supplyChain));
+        console.log(" PaymentContract:", address(payment));
+        console.log(" QRCodeRegistry:", address(qrRegistry));
+        console.log(" FairPricingContract:", address(fairPricing));
+        console.log(" ConsumerInterface:", address(consumerInterface));
+        console.log(" FraudDetectionContract:", address(fraudDetection));
 
         console.log("\n=== INTEGRATION STATUS ===");
-        console.log("Fair Pricing ↔ Supply Chain: CONNECTED");
-        console.log("Fair Pricing ↔ Payment: CONNECTED");
-        console.log("Consumer Interface ↔ All Contracts: CONNECTED");
-        console.log("Fraud Detection ↔ Supply Chain: CONNECTED");
+        console.log("Fair Pricing => Supply Chain: CONNECTED");
+        console.log("Fair Pricing => Payment: CONNECTED");
+        console.log("Consumer Interface => All Contracts: CONNECTED");
+        console.log("Fraud Detection => Supply Chain: CONNECTED");
 
         console.log("\n=== NEXT STEPS ===");
         console.log("1. Register additional farmers: fairPricing.registerFarmer(address)");
