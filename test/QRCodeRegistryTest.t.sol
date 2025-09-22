@@ -2,7 +2,7 @@
 pragma solidity ^0.8.28;
 
 import "forge-std/Test.sol";
-import "../src/QRCodeRegistry.sol";
+import {QRCodeRegistry} from "../src/QRCodeRegistry.sol";
 
 contract QRCodeRegistryTest is Test {
     QRCodeRegistry qr;

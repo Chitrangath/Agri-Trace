@@ -2,9 +2,9 @@
 pragma solidity ^0.8.28;
 
 import "forge-std/Script.sol";
-import "../src/AgricultureSupplyChain.sol";
-import "../src/PaymentContract.sol";
-import "../src/QRCodeRegistry.sol";
+import {AgricultureSupplyChain} from "../src/AgricultureSupplyChain.sol";
+import {PaymentContract} from "../src/PaymentContract.sol";
+import {QRCodeRegistry} from "../src/QRCodeRegistry.sol";
 
 contract DeployAll is Script {
     function run() external returns (AgricultureSupplyChain, PaymentContract, QRCodeRegistry) {

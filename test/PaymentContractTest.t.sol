@@ -2,7 +2,7 @@
 pragma solidity ^0.8.28;
 
 import "forge-std/Test.sol";
-import "../src/PaymentContract.sol";
+import {PaymentContract} from "../src/PaymentContract.sol";
 
 contract PaymentContractTest is Test {
     PaymentContract payment;
