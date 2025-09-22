@@ -2,7 +2,7 @@
 pragma solidity ^0.8.28;
 
 import "forge-std/Test.sol";
-import "../src/AgricultureSupplyChain.sol";
+import {AgricultureSupplyChain} from "../src/AgricultureSupplyChain.sol";
 
 contract AgricultureSupplyChainTest is Test {
     AgricultureSupplyChain supplyChain;
