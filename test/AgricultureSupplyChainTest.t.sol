@@ -27,12 +27,13 @@ contract AgricultureSupplyChainTest is Test {
         
         uint256 id = supplyChain.createProduct(100, 500, bytes32("farmLocation"), ipfsHashes);
         
-        (,, uint32 quantity, uint96 price, address owner, AgricultureSupplyChain.ProductStage stage, string[] memory hashes) = supplyChain.getProduct(id);
+        (, , uint32 quantity, uint96 price, address owner, AgricultureSupplyChain.ProductStage stage) = supplyChain.getProduct(id);
         
         assertEq(owner, farmer);
         assertEq(quantity, 100);
         assertEq(price, 500);
         assertEq(uint8(stage), uint8(AgricultureSupplyChain.ProductStage.Planted));
+        string[] memory hashes = supplyChain.getProductIPFSHashes(id);
         assertEq(hashes.length, 2);
         assertEq(hashes[0], "QmTestHash1");
         assertEq(hashes[1], "QmTestHash2");
@@ -74,7 +75,7 @@ contract AgricultureSupplyChainTest is Test {
         vm.prank(farmer);
         supplyChain.updateProductStage(id, AgricultureSupplyChain.ProductStage.Growing);
         
-        (,,,, , AgricultureSupplyChain.ProductStage stage,) = supplyChain.getProduct(id);
+        (,,,, , AgricultureSupplyChain.ProductStage stage) = supplyChain.getProduct(id);
         assertEq(uint8(stage), uint8(AgricultureSupplyChain.ProductStage.Growing));
     }
 
@@ -85,7 +86,7 @@ contract AgricultureSupplyChainTest is Test {
         vm.prank(farmer);
         supplyChain.transferOwnership(id, distributor, 600);
         
-        (,, , uint96 price, address owner,,) = supplyChain.getProduct(id);
+        (,,, uint96 price, address owner,) = supplyChain.getProduct(id);
         assertEq(owner, distributor);
         assertEq(price, 600);
     }
