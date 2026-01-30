@@ -4,6 +4,7 @@ pragma solidity ^0.8.28;
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
+import {Address} from "@openzeppelin/contracts/utils/Address.sol";
 
 /**
  * @title PaymentContract
@@ -102,9 +103,8 @@ contract PaymentContract is AccessControl, ReentrancyGuard, Pausable {
         payment.status = STATUS_EXECUTED;
         escrowBalances[payment.payer] -= payment.amount;
         
-        // Use low-level call with proper gas limits
-        (bool success, ) = payable(payment.payee).call{value: payment.amount, gas: 2300}("");
-        require(success, "Payment transfer failed");
+        // Use OpenZeppelin's Address.sendValue for safe transfers
+        Address.sendValue(payable(payment.payee), payment.amount);
         
         emit PaymentExecuted(paymentId, payment.amount);
     }
@@ -141,8 +141,8 @@ contract PaymentContract is AccessControl, ReentrancyGuard, Pausable {
         
         escrowBalances[msg.sender] -= amount;
         
-        (bool success, ) = payable(msg.sender).call{value: amount, gas: 2300}("");
-        require(success, "Withdrawal failed");
+        // Use OpenZeppelin's Address.sendValue for safe transfers
+        Address.sendValue(payable(msg.sender), amount);
         
         emit FundsWithdrawn(msg.sender, amount);
     }
@@ -186,7 +186,6 @@ contract PaymentContract is AccessControl, ReentrancyGuard, Pausable {
     // Emergency withdrawal function for admin
     function emergencyWithdraw() external onlyRole(DEFAULT_ADMIN_ROLE) {
         uint256 balance = address(this).balance;
-        (bool success, ) = payable(msg.sender).call{value: balance}("");
-        require(success, "Emergency withdrawal failed");
+        Address.sendValue(payable(msg.sender), balance);
     }
 }

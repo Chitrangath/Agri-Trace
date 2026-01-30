@@ -4,6 +4,7 @@ pragma solidity ^0.8.28;
 
 import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
+import {AgricultureSupplyChain} from "./AgricultureSupplyChain.sol";
 
 interface IAgricultureSupplyChain {
     function getProduct(uint256 productId) external view returns (
@@ -15,7 +16,7 @@ interface IAgricultureSupplyChain {
         uint8 stage
     );
     function getQualityHistory(uint256 productId) external view returns (
-        uint256[] memory qualities,
+        AgricultureSupplyChain.QualityData[] memory qualities,
         string[] memory ipfsHashes
     );
     function getProductIPFSHashes(uint256 productId) external view returns (string[] memory);
@@ -347,11 +348,11 @@ contract ConsumerInterface is AccessControl, ReentrancyGuard {
      */
     function _getLatestQualityScore(uint256 productId) internal view returns (uint16) {
         try supplyChainContract.getQualityHistory(productId) returns (
-            uint256[] memory qualities,
+            AgricultureSupplyChain.QualityData[] memory qualities,
             string[] memory
         ) {
             if (qualities.length > 0) {
-                return uint16(qualities[qualities.length - 1]);
+                return qualities[qualities.length - 1].qualityScore;
             }
         } catch {
             return 0;

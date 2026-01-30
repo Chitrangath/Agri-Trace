@@ -110,7 +110,7 @@ contract FraudDetectionContract is AccessControl, ReentrancyGuard, Pausable {
     }
 
     modifier detectionActive() {
-        require(config.isActive, "Detection disabled");
+        if (!config.isActive) revert SuspiciousActivity();
         _;
     }
 
